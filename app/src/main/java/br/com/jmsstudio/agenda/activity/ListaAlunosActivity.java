@@ -1,4 +1,4 @@
-package br.com.jmsstudio.agenda;
+package br.com.jmsstudio.agenda.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
+import br.com.jmsstudio.agenda.R;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
