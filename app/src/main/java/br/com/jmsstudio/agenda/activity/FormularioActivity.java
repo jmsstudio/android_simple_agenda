@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import br.com.jmsstudio.agenda.R;
+import br.com.jmsstudio.agenda.dao.AlunoDAO;
 import br.com.jmsstudio.agenda.helper.FormularioHelper;
 import br.com.jmsstudio.agenda.model.Aluno;
 
@@ -33,6 +34,10 @@ public class FormularioActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.formulario_menu_ok:
                 Aluno aluno = formularioHelper.getAluno();
+
+                AlunoDAO dao = new AlunoDAO(this);
+                dao.insert(aluno);
+                dao.close();
 
                 Toast.makeText(FormularioActivity.this, "Aluno " + aluno.getNome() + " adicionado com sucesso!", Toast.LENGTH_SHORT).show();
                 finish();

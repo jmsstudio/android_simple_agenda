@@ -8,7 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.jmsstudio.agenda.R;
+import br.com.jmsstudio.agenda.dao.AlunoDAO;
+import br.com.jmsstudio.agenda.model.Aluno;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
@@ -16,12 +21,6 @@ public class ListaAlunosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_alunos);
-
-        String[] alunos = {"Manoel", "João", "Geraldo", "José"};
-        ListView listaAlunos = (ListView) findViewById(R.id.lista_alunos);
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, alunos);
-        listaAlunos.setAdapter(arrayAdapter);
 
         Button btnNovoAluno = (Button) findViewById(R.id.lst_alunos_btn_incluir);
         btnNovoAluno.setOnClickListener(new View.OnClickListener() {
@@ -31,6 +30,26 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
+    private void loadAlunos() {
+        List<Aluno> alunos;
+
+        AlunoDAO dao = new AlunoDAO(this);
+        alunos = dao.listAlunos();
+        dao.close();
+
+
+        ListView listaAlunos = (ListView) findViewById(R.id.lista_alunos);
+
+        ArrayAdapter<Aluno> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alunos);
+        listaAlunos.setAdapter(arrayAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        loadAlunos();
     }
 }
