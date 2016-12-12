@@ -20,16 +20,18 @@ public class AlunoDAO extends SQLiteOpenHelper {
         super(context, "agenda", null, 1);
     }
 
+    private final String tableName = "aluno";
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        final String sql = "CREATE TABLE aluno " +
+        final String sql = "CREATE TABLE " + tableName  +
                 " (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, endereco TEXT, telefone TEXT, site TEXT, nota REAL)";
         sqLiteDatabase.execSQL(sql);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        final String sql = "DROP TABLE IF EXISTS aluno";
+        final String sql = "DROP TABLE IF EXISTS " + tableName;
         sqLiteDatabase.execSQL(sql);
         onCreate(sqLiteDatabase);
     }
@@ -44,14 +46,14 @@ public class AlunoDAO extends SQLiteOpenHelper {
         data.put("site", aluno.getSite());
         data.put("nota", aluno.getNota());
 
-        db.insert("aluno", null, data);
+        db.insert(tableName, null, data);
     }
 
     public List<Aluno> listAlunos() {
         List<Aluno> alunos = new ArrayList<>();
 
         SQLiteDatabase db = getReadableDatabase();
-        String sql = "SELECT * FROM aluno";
+        String sql = "SELECT * FROM " + tableName;
 
         Cursor cursor = db.rawQuery(sql, null);
 
@@ -70,5 +72,12 @@ public class AlunoDAO extends SQLiteOpenHelper {
         cursor.close();
 
         return alunos;
+    }
+
+    public void remove(Aluno aluno) {
+        SQLiteDatabase db = getWritableDatabase();
+        String[] params = new String[]{aluno.getId().toString()};
+                
+        db.delete(tableName, "id = ?", params);
     }
 }
