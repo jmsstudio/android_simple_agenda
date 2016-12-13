@@ -1,5 +1,6 @@
 package br.com.jmsstudio.agenda.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,6 +22,13 @@ public class FormularioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_formulario);
 
         formularioHelper = new FormularioHelper(this);
+
+        Intent intent = getIntent();
+        Aluno aluno = (Aluno) intent.getSerializableExtra("aluno");
+
+        if (aluno != null) {
+            formularioHelper.preencheFormulario(aluno);
+        }
     }
 
     @Override
@@ -36,7 +44,11 @@ public class FormularioActivity extends AppCompatActivity {
                 Aluno aluno = formularioHelper.getAluno();
 
                 AlunoDAO dao = new AlunoDAO(this);
-                dao.insert(aluno);
+                if (aluno.getId() == null) {
+                    dao.insert(aluno);
+                } else {
+                    dao.update(aluno);
+                }
                 dao.close();
 
                 Toast.makeText(FormularioActivity.this, "Aluno " + aluno.getNome() + " adicionado com sucesso!", Toast.LENGTH_SHORT).show();

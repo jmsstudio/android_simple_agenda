@@ -1,9 +1,11 @@
 package br.com.jmsstudio.agenda.model;
 
+import java.io.Serializable;
+
 /**
  * Created by jms on 05/12/16.
  */
-public class Aluno {
+public class Aluno implements Serializable {
     Long id;
     String nome;
     String endereco;
