@@ -1,7 +1,11 @@
 package br.com.jmsstudio.agenda.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -10,9 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.jmsstudio.agenda.R;
@@ -74,12 +76,47 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, final View v, final ContextMenu.ContextMenuInfo menuInfo) {
-        MenuItem menuItem = menu.add("Remover");
-        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        final Aluno aluno = (Aluno) listaAlunos.getItemAtPosition(info.position);
+
+        String site = aluno.getSite().trim().length() > 0 ? aluno.getSite().trim() : "";
+
+        if (!site.startsWith("http://")) {
+            site = "http://" + site;
+        }
+
+        MenuItem itemVisitarSite = menu.add("Visitar site");
+        Intent intentVisitarSite = new Intent(Intent.ACTION_VIEW, Uri.parse(site));
+        itemVisitarSite.setIntent(intentVisitarSite);
+
+        MenuItem itemLigar = menu.add("Ligar");
+        itemLigar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-                Aluno aluno = (Aluno) listaAlunos.getItemAtPosition(info.position);
+                if (ActivityCompat.checkSelfPermission(ListaAlunosActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(ListaAlunosActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                } else {
+                    Intent intentLigar = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + aluno.getTelefone().trim()));
+                    startActivity(intentLigar);
+                }
+                return false;
+            }
+        });
+
+
+        MenuItem itemSMS = menu.add("Enviar mensagem");
+        Intent intentSMS = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + aluno.getTelefone().trim()));
+        itemSMS.setIntent(intentSMS);
+
+        MenuItem itemMapa = menu.add("Encontrar no mapa");
+        Intent intentMapa = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + aluno.getEndereco().trim()));
+        itemMapa.setIntent(intentMapa);
+
+
+        MenuItem itemRemover = menu.add("Remover");
+        itemRemover.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
 
                 AlunoDAO dao = new AlunoDAO(ListaAlunosActivity.this);
                 dao.remove(aluno);

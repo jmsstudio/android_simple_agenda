@@ -1,6 +1,5 @@
 package br.com.jmsstudio.agenda.helper;
 
-import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
