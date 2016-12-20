@@ -1,11 +1,17 @@
 package br.com.jmsstudio.agenda.activity;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
+
+import java.io.File;
 
 import br.com.jmsstudio.agenda.R;
 import br.com.jmsstudio.agenda.dao.AlunoDAO;
@@ -14,12 +20,28 @@ import br.com.jmsstudio.agenda.model.Aluno;
 
 public class FormularioActivity extends AppCompatActivity {
 
+    public static final int REQUEST_CAMERA = 1;
     private FormularioHelper formularioHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario);
+
+        Button btnFoto = (Button) findViewById(R.id.formulario_btn_foto);
+        btnFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                final String caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
+                File arquivoFoto = new File(caminhoFoto);
+
+
+                intentFoto.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
+                startActivityForResult(intentFoto, REQUEST_CAMERA);
+            }
+        });
 
         formularioHelper = new FormularioHelper(this);
 
@@ -28,6 +50,13 @@ public class FormularioActivity extends AppCompatActivity {
 
         if (aluno != null) {
             formularioHelper.preencheFormulario(aluno);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
+            //TODO
         }
     }
 
