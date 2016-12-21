@@ -6,12 +6,13 @@ import java.io.Serializable;
  * Created by jms on 05/12/16.
  */
 public class Aluno implements Serializable {
-    Long id;
-    String nome;
-    String endereco;
-    String telefone;
-    String site;
-    Double nota;
+    private Long id;
+    private String nome;
+    private String endereco;
+    private String telefone;
+    private String site;
+    private Double nota;
+    private String fotoPath;
 
     public Long getId() {
         return id;
@@ -61,8 +62,17 @@ public class Aluno implements Serializable {
         this.nota = nota;
     }
 
+    public String getFotoPath() {
+        return fotoPath;
+    }
+
+    public void setFotoPath(String fotoPath) {
+        this.fotoPath = fotoPath;
+    }
+
     @Override
     public String toString() {
         return this.id + " - " + this.nome;
     }
+
 }

@@ -1,5 +1,8 @@
 package br.com.jmsstudio.agenda.helper;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -19,6 +22,7 @@ public class FormularioHelper {
     private TextView telefoneField;
     private TextView siteField;
     private RatingBar notaField;
+    private ImageView fotoField;
 
     public FormularioHelper(FormularioActivity activity) {
         this.activity = activity;
@@ -28,6 +32,7 @@ public class FormularioHelper {
         telefoneField = (TextView) this.activity.findViewById(R.id.formulario_telefone);
         siteField = (TextView) this.activity.findViewById(R.id.formulario_website);
         notaField = (RatingBar) this.activity.findViewById(R.id.formulario_nota);
+        fotoField = (ImageView) this.activity.findViewById(R.id.formulario_foto);
 
         aluno = new Aluno();
     }
@@ -38,6 +43,7 @@ public class FormularioHelper {
         aluno.setTelefone(telefoneField.getText().toString());
         aluno.setSite(siteField.getText().toString());
         aluno.setNota(Double.valueOf(notaField.getProgress()));
+        aluno.setFotoPath((String) fotoField.getTag());
 
         return aluno;
     }
@@ -50,5 +56,16 @@ public class FormularioHelper {
         telefoneField.setText(this.aluno.getTelefone());
         siteField.setText(this.aluno.getSite());
         notaField.setProgress(this.aluno.getNota().intValue());
+        loadImage(this.aluno.getFotoPath());
+    }
+
+    public void loadImage(String fotoPath) {
+        if (fotoPath != null) {
+            Bitmap imagem = BitmapFactory.decodeFile(fotoPath);
+            Bitmap imagemReduzida = Bitmap.createScaledBitmap(imagem, 300, 300, true);
+            fotoField.setImageBitmap(imagemReduzida);
+            fotoField.setScaleType(ImageView.ScaleType.FIT_XY);
+            fotoField.setTag(fotoPath);
+        }
     }
 }

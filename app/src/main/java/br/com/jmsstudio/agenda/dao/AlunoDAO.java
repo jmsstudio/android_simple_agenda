@@ -17,7 +17,7 @@ import br.com.jmsstudio.agenda.model.Aluno;
 
 public class AlunoDAO extends SQLiteOpenHelper {
     public AlunoDAO(Context context) {
-        super(context, "agenda", null, 1);
+        super(context, "agenda", null, 2);
     }
 
     private final String tableName = "aluno";
@@ -25,15 +25,18 @@ public class AlunoDAO extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String sql = "CREATE TABLE " + tableName  +
-                " (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, endereco TEXT, telefone TEXT, site TEXT, nota REAL)";
+                " (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, endereco TEXT, telefone TEXT, site TEXT, nota REAL, fotoPath TEXT)";
         sqLiteDatabase.execSQL(sql);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        final String sql = "DROP TABLE IF EXISTS " + tableName;
-        sqLiteDatabase.execSQL(sql);
-        onCreate(sqLiteDatabase);
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        String sql;
+        switch (oldVersion) {
+            case 1:
+                sql = "ALTER TABLE " + tableName + " ADD COLUMN fotoPath TEXT";
+                sqLiteDatabase.execSQL(sql);
+        }
     }
 
     private ContentValues getContentValues(Aluno aluno) {
@@ -43,6 +46,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
         data.put("telefone", aluno.getTelefone());
         data.put("site", aluno.getSite());
         data.put("nota", aluno.getNota());
+        data.put("fotoPath", aluno.getFotoPath());
 
         return data;
     }
@@ -69,6 +73,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
             aluno.setTelefone(cursor.getString(cursor.getColumnIndex("telefone")));
             aluno.setSite(cursor.getString(cursor.getColumnIndex("site")));
             aluno.setNota(cursor.getDouble(cursor.getColumnIndex("nota")));
+            aluno.setFotoPath(cursor.getString(cursor.getColumnIndex("fotoPath")));
 
             alunos.add(aluno);
         }
