@@ -19,6 +19,7 @@ import java.io.File;
 import br.com.jmsstudio.agenda.R;
 import br.com.jmsstudio.agenda.dao.AlunoDAO;
 import br.com.jmsstudio.agenda.helper.FormularioHelper;
+import br.com.jmsstudio.agenda.helper.ImageHelper;
 import br.com.jmsstudio.agenda.model.Aluno;
 
 public class FormularioActivity extends AppCompatActivity {
@@ -60,7 +61,7 @@ public class FormularioActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
-            formularioHelper.loadImage(caminhoFoto);
+            ImageHelper.loadImageIntoView(caminhoFoto, 300, 300, (ImageView) findViewById(R.id.formulario_foto), true);
         }
     }
 

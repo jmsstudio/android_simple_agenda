@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/item_foto"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/person"
+        android:layout_margin="5dp"
+        />
+    <LinearLayout
+        android:id="@+id/item_dados"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <TextView
+            android:id="@+id/item_nome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nome"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="6dp"/>
+        <TextView
+            android:id="@+id/item_telefone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Telefone"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:paddingLeft="6dp"/>
+    </LinearLayout>
+</LinearLayout>

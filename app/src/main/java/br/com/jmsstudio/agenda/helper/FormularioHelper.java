@@ -56,16 +56,6 @@ public class FormularioHelper {
         telefoneField.setText(this.aluno.getTelefone());
         siteField.setText(this.aluno.getSite());
         notaField.setProgress(this.aluno.getNota().intValue());
-        loadImage(this.aluno.getFotoPath());
-    }
-
-    public void loadImage(String fotoPath) {
-        if (fotoPath != null) {
-            Bitmap imagem = BitmapFactory.decodeFile(fotoPath);
-            Bitmap imagemReduzida = Bitmap.createScaledBitmap(imagem, 300, 300, true);
-            fotoField.setImageBitmap(imagemReduzida);
-            fotoField.setScaleType(ImageView.ScaleType.FIT_XY);
-            fotoField.setTag(fotoPath);
-        }
+        ImageHelper.loadImageIntoView(this.aluno.getFotoPath(), 300, 300, fotoField, true);
     }
 }

@@ -11,13 +11,13 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.List;
 
 import br.com.jmsstudio.agenda.R;
+import br.com.jmsstudio.agenda.adapter.ListAlunosAdapter;
 import br.com.jmsstudio.agenda.dao.AlunoDAO;
 import br.com.jmsstudio.agenda.model.Aluno;
 
@@ -63,8 +63,8 @@ public class ListaAlunosActivity extends AppCompatActivity {
         alunos = dao.listAlunos();
         dao.close();
 
-        ArrayAdapter<Aluno> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alunos);
-        listaAlunos.setAdapter(arrayAdapter);
+        ListAlunosAdapter listAlunosAdapter = new ListAlunosAdapter(alunos, this);
+        listaAlunos.setAdapter(listAlunosAdapter);
     }
 
     @Override
