@@ -57,6 +57,16 @@ public class AlunoDAO extends SQLiteOpenHelper {
         db.insert(tableName, null, getContentValues(aluno));
     }
 
+    public boolean existeAlunoComTelefone(String telefone) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + tableName + " WHERE telefone = ?", new String[]{telefone});
+        boolean existeAluno = cursor.getCount() > 0;
+        cursor.close();
+
+        return existeAluno;
+    }
+
     public List<Aluno> listAlunos() {
         List<Aluno> alunos = new ArrayList<>();
 

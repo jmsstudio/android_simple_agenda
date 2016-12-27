@@ -24,6 +24,7 @@ import br.com.jmsstudio.agenda.model.Aluno;
 public class ListaAlunosActivity extends AppCompatActivity {
 
     private ListView listaAlunos;
+    private final int CODIGO_SMS = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,19 @@ public class ListaAlunosActivity extends AppCompatActivity {
             }
         });
 
+        checkAndRequestDefaultPermissions();
+
         registerForContextMenu(listaAlunos);
+    }
+
+    /**
+     * Verifica se o usuário possui permissões necessárias para utilização da aplicação.
+     * Caso não possua, solicita as permissões
+     */
+    private void checkAndRequestDefaultPermissions() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS}, CODIGO_SMS);
+        }
     }
 
     private void loadAlunos() {
