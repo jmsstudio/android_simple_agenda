@@ -8,18 +8,24 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
+import java.util.zip.Inflater;
 
 import br.com.jmsstudio.agenda.R;
 import br.com.jmsstudio.agenda.adapter.ListAlunosAdapter;
+import br.com.jmsstudio.agenda.converter.AlunoConverter;
 import br.com.jmsstudio.agenda.dao.AlunoDAO;
 import br.com.jmsstudio.agenda.model.Aluno;
+import br.com.jmsstudio.agenda.task.AlunoRequestTask;
+import br.com.jmsstudio.agenda.util.WebClientUtil;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
@@ -70,14 +76,20 @@ public class ListaAlunosActivity extends AppCompatActivity {
     }
 
     private void loadAlunos() {
+        List<Aluno> alunos = getAlunos();
+
+        ListAlunosAdapter listAlunosAdapter = new ListAlunosAdapter(alunos, this);
+        listaAlunos.setAdapter(listAlunosAdapter);
+    }
+
+    private List<Aluno> getAlunos() {
         List<Aluno> alunos;
 
         AlunoDAO dao = new AlunoDAO(this);
         alunos = dao.listAlunos();
         dao.close();
 
-        ListAlunosAdapter listAlunosAdapter = new ListAlunosAdapter(alunos, this);
-        listaAlunos.setAdapter(listAlunosAdapter);
+        return alunos;
     }
 
     @Override
@@ -85,6 +97,23 @@ public class ListaAlunosActivity extends AppCompatActivity {
         super.onResume();
 
         loadAlunos();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_enviar_notas, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_enviar_notas:
+                new AlunoRequestTask(this).execute();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

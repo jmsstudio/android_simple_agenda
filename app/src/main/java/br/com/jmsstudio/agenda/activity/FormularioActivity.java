@@ -68,7 +68,7 @@ public class FormularioActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_formulario, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
