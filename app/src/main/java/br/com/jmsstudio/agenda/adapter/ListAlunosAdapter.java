@@ -54,11 +54,21 @@ public class ListAlunosAdapter extends BaseAdapter {
 
         TextView textViewNome = (TextView) view.findViewById(R.id.item_nome);
         TextView textViewTelefone = (TextView) view.findViewById(R.id.item_telefone);
+        TextView textViewEndereco = (TextView) view.findViewById(R.id.item_endereco);
+        TextView textViewSite = (TextView) view.findViewById(R.id.item_site);
         ImageView imageViewAluno = (ImageView) view.findViewById(R.id.item_foto);
 
         textViewNome.setText(aluno.getNome());
 
         textViewTelefone.setText(aluno.getTelefone());
+
+        if (textViewEndereco != null) {
+            textViewEndereco.setText(aluno.getEndereco());
+        }
+
+        if (textViewSite != null) {
+            textViewSite.setText(aluno.getSite());
+        }
 
         ImageHelper.loadImageIntoView(aluno.getFotoPath(), 100, 100, imageViewAluno, false);
 
