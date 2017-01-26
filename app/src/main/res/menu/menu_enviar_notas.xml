@@ -6,4 +6,9 @@
         android:icon="@drawable/ic_enviar"
         app:showAsAction="always"
         />
+    <item android:id="@+id/menu_listar_provas"
+        android:title="Listar provas"
+        android:icon="@drawable/ic_receber"
+        app:showAsAction="always"
+        />
 </menu>
