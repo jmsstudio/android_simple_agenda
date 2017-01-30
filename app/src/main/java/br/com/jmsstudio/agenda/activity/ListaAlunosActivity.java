@@ -14,18 +14,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import br.com.jmsstudio.agenda.R;
 import br.com.jmsstudio.agenda.adapter.ListAlunosAdapter;
-import br.com.jmsstudio.agenda.converter.AlunoConverter;
 import br.com.jmsstudio.agenda.dao.AlunoDAO;
 import br.com.jmsstudio.agenda.model.Aluno;
 import br.com.jmsstudio.agenda.task.AlunoRequestTask;
-import br.com.jmsstudio.agenda.util.WebClientUtil;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
@@ -111,10 +107,17 @@ public class ListaAlunosActivity extends AppCompatActivity {
             case R.id.menu_enviar_notas:
                 new AlunoRequestTask(this).execute();
                 break;
+
             case R.id.menu_listar_provas:
                 Intent intent = new Intent(this, ProvasActivity.class);
                 startActivity(intent);
                 break;
+
+            case R.id.menu_maps:
+                Intent intentMaps = new Intent(this, MapsActivity.class);
+                startActivity(intentMaps);
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
